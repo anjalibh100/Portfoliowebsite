@@ -1,0 +1,15 @@
+Identify blocking and blocked SPIDs 
+-----------------------------------
+
+SELECT 
+    p.spid AS blocked_spid, 
+    p.blocked AS blocking_spid, 
+    p.status, 
+    p.program_name, 
+    p.hostname, 
+    p.cmd 
+FROM 
+    master..sysprocesses p 
+WHERE 
+    p.blocked != 0
+go

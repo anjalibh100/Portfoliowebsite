@@ -1,0 +1,12 @@
+Useful to detect unnecessary indexes affecting performance:
+
+SELECT
+    so.name AS table_name,
+    si.name AS index_name,
+    si.rowcnt,
+    si.id
+FROM sysobjects so
+JOIN sysindexes si ON so.id = si.id
+WHERE si.indid > 0
+AND si.rowcnt = 0
+AND so.type = 'U';

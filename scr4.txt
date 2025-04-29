@@ -1,0 +1,7 @@
+Check Sybase ASE Logs -
+
+Inspect the Sybase server error log (usually found under $SYBASE/$SYBASE_ASE/install):
+
+tail -f $SYBASE/$SYBASE_ASE/install/<SERVER_NAME>.log
+
+Look for startup errors or confirmation that the server has started successfully.

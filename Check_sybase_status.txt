@@ -1,0 +1,89 @@
+sybase_status_check.sh
+
+-----------------------
+
+
+#!/bin/bash
+
+# Configuration
+SYBASE_SERVER="SYBASE_SERVER_NAME"
+SYBASE_USER="sa"
+SYBASE_PASS="your_password"
+ISQL_PATH="/opt/sybase/OCS-16_0/bin/isql"     # Update if needed
+LOG_FILE="/var/log/sybase_status.log"
+MAIL_RECIPIENTS="admin@example.com"
+MAIL_SUBJECT="ALERT: Sybase Server $SYBASE_SERVER Down"
+
+# Timestamp
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+# Function to log and alert
+send_alert() {
+    local message="$1"
+    echo "$TIMESTAMP - $message" >> "$LOG_FILE"
+    echo "$message" | mail -s "$MAIL_SUBJECT" "$MAIL_RECIPIENTS"
+}
+
+log_ok() {
+    echo "$TIMESTAMP - $1" >> "$LOG_FILE"
+}
+
+# 1. Check if dataserver process is running
+if ! pgrep -f "dataserver.*${SYBASE_SERVER}" > /dev/null; then
+    send_alert "Sybase dataserver process for '$SYBASE_SERVER' is NOT running."
+    exit 1
+else
+    log_ok "Sybase dataserver process for '$SYBASE_SERVER' is running."
+fi
+
+# 2. Check connection via isql
+$ISQL_PATH -S $SYBASE_SERVER -U $SYBASE_USER -P $SYBASE_PASS -Q "select getdate()" > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    send_alert "Connection to Sybase server '$SYBASE_SERVER' FAILED."
+    exit 1
+else
+    log_ok "Connection to Sybase server '$SYBASE_SERVER' successful."
+fi
+
+------------------------------------------------------------------
+
+2. Install mailx (if not installed)
+
+
+------------------------------------------------
+
+sudo yum install mailx       # RedHat/CentOS
+
+------------------------------------------------
+
+3. Configure Email Sending (optional)
+
+--------------------------------------
+
+If you're not using a mail relay, configure /etc/mail.rc or postfix/sendmail as needed.
+
+-------------------------------------
+
+3. Make script executable
+
+-----------------------------------
+
+chmod +x /usr/local/bin/sybase_health_check.sh
+
+------------------------------------
+
+4. Create the Log File (optional)
+
+touch /var/log/sybase_status.log
+chmod 644 /var/log/sybase_status.log
+
+5. Add to crontab 
+--------------------------------
+
+crontab -e
+
+#To run every 5 minutes
+*/5 * * * * /usr/local/bin/sybase_health_check.sh 
+
+-----------------------------------
+

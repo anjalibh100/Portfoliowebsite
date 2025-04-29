@@ -1,0 +1,12 @@
+Check Listener Port with netstat
+
+Ensure the server is listening on the correct port:
+
+netstat -tulnp | grep 5000
+
+
+Parameters tulnp stands for -
+-t	Show TCP connections.
+-u	Show UDP connections.
+-l	Show only listening sockets.
+-n	Show numeric addresses (no DNS lookups).

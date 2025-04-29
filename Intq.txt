@@ -1,0 +1,161 @@
+🔝 Top 20 Sybase ASE 12.5 Interview Questions & Answers
+
+1. What is Sybase ASE?
+Answer:
+ Sybase ASE (Adaptive Server Enterprise) is a high-performance, relational database management system designed for OLTP. It supports T-SQL, stored procedures, and transaction management.
+
+2. What are the key system databases in ASE?
+Answer:
+master: Stores system-level info (logins, config).
+
+
+model: Template for new databases.
+
+
+tempdb: Temporary objects and sorting.
+
+
+sybsystemprocs: System stored procedures.
+
+
+sybsystemdb: System Transaction Manager (XA).
+
+
+
+3. How do you back up a database in Sybase?
+Answer:
+ Using DUMP DATABASE:
+sql
+CopyEdit
+DUMP DATABASE mydb TO "/backup/mydb.dmp" WITH INIT
+
+
+4. How to recover from a failed transaction log?
+Answer:
+ Use:
+sql
+CopyEdit
+LOAD DATABASE mydb FROM "/backup/mydb.dmp"
+LOAD TRANSACTION mydb FROM "/backup/mydb_log.trn"
+
+Ensure log backups are complete and continuous.
+
+5. What is tempdb, and how is it used?
+Answer:
+ tempdb is a system database for temporary tables, intermediate results, and sorts. It is recreated every time the server restarts.
+
+6. How do you check for blocking in Sybase ASE?
+Answer:
+sql
+CopyEdit
+SELECT spid, blocked, cmd, program_name FROM master..sysprocesses WHERE blocked != 0
+
+
+7. How do you increase database size?
+Answer:
+sql
+CopyEdit
+ALTER DATABASE mydb ON mydevice = '200MB'
+
+
+8. What is sp_spaceused used for?
+Answer:
+ It shows space usage for tables or databases:
+sql
+CopyEdit
+sp_spaceused mytable
+
+
+9. How do you monitor deadlocks in ASE 12.5?
+Answer:
+ Enable deadlock tracing:
+sql
+CopyEdit
+dbcc traceon(1204, -1)
+
+Then check the errorlog for deadlock info.
+
+10. How can you find the status of a server or login?
+Answer:
+sql
+CopyEdit
+sp_who          -- for sessions  
+sp_helpuser     -- for users in DB  
+sp_helplogin    -- for login details
+
+
+11. What is isql?
+Answer:
+ Interactive SQL utility to run SQL from command line:
+bash
+CopyEdit
+isql -S servername -U sa -P password
+
+
+12. What are segments in ASE?
+Answer:
+ Segments are logical areas on devices used for placing objects (e.g., tables or indexes). You can assign tables to segments to control I/O.
+
+13. What is the difference between DUMP and LOAD?
+Answer:
+DUMP: Creates backup of DB or transaction log.
+
+
+LOAD: Restores the DB or log from backup.
+
+
+
+14. How to find long-running queries?
+Answer:
+sql
+CopyEdit
+SELECT spid, cpu, physical_io, cmd FROM master..sysprocesses WHERE status = 'runnable'
+
+
+15. What is the master..sysprocesses table used for?
+Answer:
+ It tracks all server processes, their status, commands, program names, and session IDs.
+
+16. How do you configure memory in ASE 12.5?
+Answer:
+sql
+CopyEdit
+sp_configure "max memory", 524288  
+sp_configure "default data cache", 204800  
+
+Then reboot ASE for changes to take effect.
+
+17. How to kill a session in ASE?
+Answer:
+sql
+CopyEdit
+kill <spid>
+
+
+18. What is the purpose of dbcc checkdb()?
+Answer:
+ It checks the logical and physical consistency of the database:
+sql
+CopyEdit
+dbcc checkdb(mydb)
+
+
+19. How do you monitor locks?
+Answer:
+sql
+CopyEdit
+sp_lock
+
+Or:
+sql
+CopyEdit
+SELECT * FROM master..syslocks
+
+
+20. How do you schedule jobs in ASE 12.5?
+Answer:
+ ASE 12.5 doesn’t have a built-in job scheduler. DBAs use:
+OS-level cron/Windows Task Scheduler with isql
+
+
+Third-party tools or sybatch

@@ -1,0 +1,143 @@
+1. sp_help
+Provides detailed information about a database object (table, view, procedure, etc.), such as columns, data types, and indexes.
+
+sp_help 'your_table_name'
+
+
+2. sp_helpindex
+Returns information about the indexes on a table.
+
+sp_helpindex 'your_table_name'
+
+
+3. sp_spaceused
+Displays information about space usage, including table size, number of rows, and index space.
+
+sp_spaceused 'your_table_name'
+
+
+4. sp_rename
+Renames a database object (table, column, etc.).
+
+sp_rename 'old_table_name', 'new_table_name'
+
+
+5. sp_configure
+Displays or changes the configuration settings of the server.
+
+sp_configure 'max memory'
+
+
+6. sp_adduser
+Adds a new user to the current database.
+
+sp_adduser 'username', 'login_name'
+
+
+7. sp_dropuser
+Deletes a user from the current database.
+
+sp_dropuser 'username'
+
+
+8. sp_grant
+Grants a specified permission to a user or role.
+
+sp_grant 'select', 'your_table', 'username'
+
+
+9. sp_revoke
+Revokes a specified permission from a user or role.
+
+sp_revoke 'select', 'your_table', 'username'
+
+
+10. sp_addlogin
+Creates a login for a user to access the Sybase server.
+
+sp_addlogin 'login_name', 'password'
+
+
+11. sp_droplogin
+Deletes a login from the Sybase server.
+
+sp_droplogin 'login_name'
+
+
+12. sp_who
+Returns information about all active sessions and processes in the Sybase server.
+
+sp_who
+
+
+13. sp_who2
+Displays extended information about active processes, including I/O, CPU usage, and wait time.
+
+sp_who2
+
+
+14. sp_lock
+Shows locks held by processes and the state of those locks.
+
+sp_lock
+
+
+15. sp_helpdb
+Displays information about all databases on the Sybase server.
+
+sp_helpdb
+
+
+16. sp_helptext
+Displays the text of a stored procedure, trigger, or view.
+
+sp_helptext 'your_procedure_name'
+
+
+17. sp_dboption
+Sets or displays options for a specific database.
+
+sp_dboption 'your_database', 'select into/bulkcopy', 'true'
+
+
+18. sp_attachments
+Displays information about the database’s attached devices (files).
+
+sp_attachments
+
+
+19. sp_dbcc
+Performs consistency checks on a database (e.g., checking for data corruption).
+
+sp_dbcc 'your_database'
+
+
+20. sp_showplan
+Displays the query execution plan for a given SQL query.
+
+sp_showplan 'SELECT * FROM your_table'
+
+
+
+Few more :
+-----------
+
+sp_ask – Used to ask a question about a database.
+
+
+sp_denylogin – Denies login for a user or role.
+
+
+sp_addrole – Adds a role to a user.
+
+
+sp_configure – Used to configure server-wide settings like memory allocation, number of processors, etc.
+
+
+sp_repair – Repairs a database or database object.
+
+
+sp_renamedb – Renames an existing database.
+
+
+sp_stat – Retrieves statistics information (usually related to table scanning).

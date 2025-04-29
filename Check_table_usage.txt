@@ -1,0 +1,5 @@
+Gives an overview of table size, number of rows, data space, and index space.
+
+sp_spaceused 'your_table_name'
+
+

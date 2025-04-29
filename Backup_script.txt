@@ -1,0 +1,4 @@
+DUMP DATABASE mydb 
+TO "/sybase/backups/mydb_backup_20250425.dmp" 
+WITH INIT, COMPRESSION = 101
+go

@@ -1,0 +1,10 @@
+Sybase DBA Duties
+--------------------
+-Checking the server status (automate the job in crontab to monitor the server status).
+-Ensure that backups happen daily.
+-Health check for all the databases.
+-Performance related tasks (automate Update statistics & sp_recompile in crontab).
+-Rebooting the servers during maintenance window.
+-Security Management (adding logins/users with proper approvals from application/technical leads).
+-Proactively monitoring the database data & log growth (threshold setup).
+-Monitoring error logs.

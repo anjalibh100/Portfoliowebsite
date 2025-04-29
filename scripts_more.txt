@@ -1,0 +1,111 @@
+🔥 Additional 10 Important Sybase ASE DBA Scripts:
+
+1. Find Blocking Sessions
+sql
+CopyEdit
+SELECT
+    p.spid AS BlockerSPID,
+    p.blocked AS BlockedSPID,
+    p.program_name,
+    p.login_time,
+    p.cpu,
+    p.cmd,
+    p.status
+FROM master..sysprocesses p
+WHERE p.blocked != 0
+ORDER BY p.blocked;
+
+👉 Helps in detecting who is blocking whom in the database.
+
+2. List Open Transactions
+sql
+CopyEdit
+dbcc opentran('your_database_name')
+
+👉 Shows the oldest open transaction that might cause blocking or log space issues.
+
+3. Check Database Space Usage
+sql
+CopyEdit
+sp_spaceused 'your_table_name'
+
+👉 Gives an overview of table size, number of rows, data space, and index space.
+
+4. Find Current Running Queries
+sql
+CopyEdit
+SELECT spid, cmd, cpu, physical_io, memusage, status, program_name, hostname
+FROM master..sysprocesses
+WHERE status = 'running'
+ORDER BY cpu DESC;
+
+👉 Shows what queries are currently executing and their resource usage.
+
+5. Find Indexes on a Table
+sql
+CopyEdit
+sp_helpindex 'your_table_name'
+
+👉 Lists all indexes defined on a table.
+
+6. Find Unused Indexes (Low usage)
+sql
+CopyEdit
+SELECT
+    so.name AS table_name,
+    si.name AS index_name,
+    si.rowcnt,
+    si.id
+FROM sysobjects so
+JOIN sysindexes si ON so.id = si.id
+WHERE si.indid > 0
+AND si.rowcnt = 0
+AND so.type = 'U';
+
+👉 Useful to detect unnecessary indexes affecting performance.
+
+7. Check Tempdb Usage
+sql
+CopyEdit
+sp_spaceused tempdb
+
+or
+sql
+CopyEdit
+SELECT db_name(dbid), sum(curunreservedpgs(dbid, lstart)) * 2 / 1024.0
+FROM master..syslogs
+WHERE dbid = db_id('tempdb')
+GROUP BY dbid;
+
+👉 Helps track if tempdb is running out of space.
+
+8. Show Last Error Messages from Errorlog
+sql
+CopyEdit
+SELECT TOP 50 * 
+FROM master..syserrors 
+WHERE severity >= 16
+ORDER BY error;
+
+👉 Quick view of critical error messages.
+
+9. Find Fragmentation in Indexes
+sql
+CopyEdit
+dbcc showcontig('your_table_name', 'your_index_name')
+
+👉 Analyze the fragmentation level of indexes to decide on rebuilds.
+
+10. Audit User Logins (When, Who, From Where)
+sql
+CopyEdit
+SELECT su.name, sp.login_time, sp.hostname, sp.program_name
+FROM master..sysprocesses sp
+JOIN master..syslogins su ON sp.suid = su.suid
+WHERE sp.status = 'login'
+ORDER BY sp.login_time DESC;
+
+👉 Good for auditing and security review.
+
+
+

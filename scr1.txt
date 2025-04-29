@@ -1,0 +1,42 @@
+Check if the Sybase Server Process is Running
+-------------------------------------------------
+
+1.Use the ps command to check for the Sybase engine (dataserver) process:
+
+ps -ef | grep dataserver
+
+
+This tells you if the ASE engine is running. You’ll see something like:
+
+sybase   12345     1  0 12:01 ?        00:00:02 /opt/sybase/ASE-16_0/bin/dataserver ...
+
+
+2. Login to the Sybase server using isql.
+
+isql -S SYBASE_SERVER -U sa -P mypassword
+
+Should be able to run basic commands as below.
+
+select @@version
+go
+exit or quit
+
+3: Ensure server is running on the correct port.
+netstat -tulnp | grep 5000
+
+
+Step 3: Check ASE Logs
+You can also inspect the Sybase server error log (usually found under $SYBASE/$SYBASE_ASE/install):
+
+tail -f $SYBASE/$SYBASE_ASE/install/<SERVER_NAME>.log
+
+
+Step 4: Check who is logged on , check database.
+
+sp_who
+go
+
+sp_helpdb
+go
+
+

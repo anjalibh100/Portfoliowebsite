@@ -1,0 +1,26 @@
+🌐 Top 5 Websites for Sybase ASE DBA's
+
+1. ISUG-Tech (International Sybase User Group)
+🔹 Best for: Whitepapers, product documentation, and expert articles
+ 🔹 Offers detailed resources on ASE internals, tuning, and upgrades
+ 🔹 Free registration gives access to technical presentations and PDFs
+
+2. Sybase/ASE Docs on SAP Help Portal
+🔹 Best for: Official ASE 15 documentation, admin guides, tuning reference
+ 🔹 Includes SQL syntax, configuration parameters, backup, recovery, and performance optimization
+ 🔹 Regularly updated by SAP (Sybase's current owner)
+
+3. DBA Stack Exchange
+🔹 Best for: Community Q&A on real-world Sybase problems
+ 🔹 Search for "Sybase ASE" tags for dozens of tuning, architecture, and troubleshooting questions
+ 🔹 Helpful for understanding common interview scenarios from real DBAs
+
+4. Tek-Tips Forums – Sybase
+🔹 Best for: Classic DBA discussions, errors, optimization advice
+ 🔹 Good source for version-specific tips (including ASE 15.x)
+ 🔹 Searchable threads with detailed explanations and scripts
+
+5. CodingSight – Sybase ASE Articles
+🔹 Best for: Simple walk-throughs, replication, and backup strategies
+ 🔹 Includes practical DBA use cases and comparisons to other RDBMSs
+ 🔹 Easy-to-read content for beginners and intermediate users

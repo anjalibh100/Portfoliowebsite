@@ -1,0 +1,23 @@
+SELECT 
+    spid, 
+    suid, 
+    status, 
+    hostname, 
+    program_name, 
+    cpu, 
+    physical_io, 
+    cmd, 
+    blocked 
+FROM 
+    master..sysprocesses 
+WHERE 
+    status != 'background'
+ORDER BY 
+    cpu DESC
+go
+
+
+----------------------------------------
+
+
+sp_who

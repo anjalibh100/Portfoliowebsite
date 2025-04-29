@@ -1,0 +1,6 @@
+Shows what queries are currently executing and their resource usage:
+
+SELECT spid, cmd, cpu, physical_io, memusage, status, program_name, hostname
+FROM master..sysprocesses
+WHERE status = 'running'
+ORDER BY cpu DESC;

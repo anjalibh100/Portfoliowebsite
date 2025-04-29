@@ -1,0 +1,89 @@
+
+sybase_multi_check.sh
+
+------------------------------------------------------------
+#!/bin/bash
+
+# Configuration
+ISQL_PATH="/opt/sybase/OCS-16_0/bin/isql"     # Update path if needed
+LOG_FILE="/var/log/sybase_status.log"
+MAIL_RECIPIENTS="dba-team@example.com"
+MAIL_SUBJECT="ALERT: Sybase Server Down"
+
+# Define servers as: SERVER_NAME|USERNAME|PASSWORD
+SYBASE_SERVERS=(
+  "SYB_DEV1|sa|devpass"
+  "SYB_DEV2|sa|devpass2"
+  "SYB_QA|sa|qapass"
+)
+
+# Timestamp
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+# Function to log and alert
+send_alert() {
+    local message="$1"
+    echo "$TIMESTAMP - $message" >> "$LOG_FILE"
+    echo "$message" | mail -s "$MAIL_SUBJECT" "$MAIL_RECIPIENTS"
+}
+
+log_ok() {
+    echo "$TIMESTAMP - $1" >> "$LOG_FILE"
+}
+
+# Iterate through each server
+for entry in "${SYBASE_SERVERS[@]}"; do
+    IFS='|' read -r SERVER USER PASS <<< "$entry"
+    
+    # 1. Check process
+    if ! pgrep -f "dataserver.*${SERVER}" > /dev/null; then
+        send_alert "Sybase server '$SERVER' process NOT running."
+        continue
+    else
+        log_ok "Sybase server '$SERVER' process is running."
+    fi
+
+    # 2. Check connection
+    $ISQL_PATH -S "$SERVER" -U "$USER" -P "$PASS" -Q "select getdate()" > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        send_alert "Connection to Sybase server '$SERVER' FAILED."
+    else
+        log_ok "Connection to Sybase server '$SERVER' successful."
+    fi
+done
+---------------------------------------------------------------------
+
+Save the bash script
+
+
+save the script
+
+-------------------------------------------------------------------
+
+Change the mode (make it executable)
+
+chmod +x /usr/local/bin/sybase_multi_check.sh
+
+-------------------------------------------------------------------
+
+Create log files
+
+touch /var/log/sybase_status.log
+chmod 644 /var/log/sybase_status.log
+
+
+-------------------------------------------------------------------
+
+Ensure Email Sending Works Install mail tools if needed:
+
+sudo yum install mailx       # RedHat/CentOS
+
+--------------------------------------------------------------------
+
+Schedule with crontab
+
+crontab -e
+*/5 * * * * /usr/local/bin/sybase_multi_check.sh
+
+-----------------------------------------------------------------------
+

@@ -1,0 +1,16 @@
+Try connecting using isql, the Sybase command-line tool:
+
+isql -S <SERVER_NAME> -U <USERNAME> -P <PASSWORD>
+
+Example:
+bash
+CopyEdit
+isql -S SYBASE_SERVER -U sa -P mypassword
+
+If the server is up, you’ll enter the SQL prompt. You can then run a basic command like:
+sql
+CopyEdit
+select @@version
+go
+
+Exit or Quit

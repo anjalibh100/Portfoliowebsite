@@ -1,0 +1,109 @@
+Top CPU-Consuming Queries
+
+-------------------------
+
+SELECT 
+    spid, 
+    cpu, 
+    physical_io, 
+    program_name, 
+    hostname, 
+    cmd, 
+    dbid 
+FROM 
+    master..sysprocesses 
+WHERE 
+    status = 'runnable' 
+ORDER BY 
+    cpu DESC
+go
+
+
+
+Fragmented Tables / Reorg Candidates
+------------------------------------
+
+USE <your_db>
+go
+
+sp_spaceused
+go
+
+sp_chgattribute "<table_name>", "exp_row_size", 0
+go
+
+dbcc tablealloc(<your_db>, "<table_name>", full, fix)
+go
+
+
+Get page-info
+--------------
+sp_helpindex "<table_name>"
+go
+
+You may want to run reorg rebuild or reorg compact on highly fragmented tables.
+
+
+Procedure Cache Usage
+----------------------
+
+sp_monitorconfig "procedure cache size"
+go
+
+You’ll get:
+Configured size
+Currently used
+Max used
+Percent usage
+
+Useful for tuning memory configuration (procedure cache size).
+
+
+Purpose : Check missing or unused indexes
+-----------------------------------------
+
+set showplan on
+go
+
+SELECT * FROM <your_table> WHERE <your_column> = 'some_value'
+go
+
+set showplan off
+go
+
+Watch the output to check if indexes are used — if not, maybe missing or not optimized.
+
+Purpose : Check query execution statistics
+-------------------------------------------
+
+set statistics io on
+set statistics time on
+go
+
+SELECT * FROM <your_table> WHERE <some_condition>
+go
+
+set statistics io off
+set statistics time off
+go
+
+Shows logical/physical reads and CPU time — helps in query optimization.
+
+
+Purpose : Check Configurations
+--------------------------------
+
+sp_configure
+go
+
+Use this to evaluate settings like:
+
+number of user connections
+
+procedure cache size
+
+max memory
+
+optimization goal (e.g., throughput vs. response time)
+
+

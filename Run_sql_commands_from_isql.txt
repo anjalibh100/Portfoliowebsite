@@ -1,0 +1,2 @@
+#!/bin/bash
+/opt/sybase/OCS-16_0/bin/isql -S SYBASE_SERVER -U sa -P password -Q "SELECT name FROM sysdatabases"

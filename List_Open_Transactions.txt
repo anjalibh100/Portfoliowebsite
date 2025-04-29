@@ -1,0 +1,3 @@
+Shows the oldest open transaction that might cause blocking or log space issues:
+
+dbcc opentran('your_database_name')

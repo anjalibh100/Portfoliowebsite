@@ -1,0 +1,15 @@
+
+tail -n 100 /opt/sybase/ASE-16_0/install/SYBASE_SERVER.log | grep -i "error"
+
+or
+
+grep -Ei "error|failure|critical" /path/to/sybase.log
+
+
+------------------------------------------------------------
+
+
+
+cron-based health check, filter for the following keywords:
+
+grep -Ei "error|failure|critical" /path/to/sybase.log

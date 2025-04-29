@@ -1,0 +1,17 @@
+USE master
+go
+
+SELECT 
+    db.name AS database_name,
+    CONVERT(DECIMAL(10,2), db.size * 1.0 / 128) AS total_mb,
+    CONVERT(DECIMAL(10,2), SUM(uf.segmap * uf.size) * 1.0 / 128) AS used_mb,
+    CONVERT(DECIMAL(10,2), (db.size - SUM(uf.segmap * uf.size)) * 1.0 / 128) AS free_mb
+FROM 
+    sysdatabases db
+JOIN 
+    master..sysusages uf ON db.dbid = uf.dbid
+GROUP BY 
+    db.name, db.size
+ORDER BY 
+    db.name
+go

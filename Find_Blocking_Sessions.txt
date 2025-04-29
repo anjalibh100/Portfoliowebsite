@@ -1,0 +1,13 @@
+Shows the oldest open transaction that might cause blocking or log space issues.
+
+SELECT
+    p.spid AS BlockerSPID,
+    p.blocked AS BlockedSPID,
+    p.program_name,
+    p.login_time,
+    p.cpu,
+    p.cmd,
+    p.status
+FROM master..sysprocesses p
+WHERE p.blocked != 0
+ORDER BY p.blocked;
